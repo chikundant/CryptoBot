@@ -1,10 +1,70 @@
 from project import bot, session
 from telebot import types
 from project.models import User
+from project.modules.menu import handle_menu
+from sqlalchemy.exc import IntegrityError
+import re
+
+regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 
 
-def handle_start(message: types.Message):
-    bot.send_message(message.chat.id, "Hello! Please register by sending me your email.")
-    # user = User(username='username', email='12312321', password_hash='2222')
-    # session.add(user)
-    # session.commit()
+def is_registered():
+    pass
+
+
+def registration(message: types.Message):
+    user = User(telegram_id=message.from_user.id)
+    bot.send_message(message.chat.id, "Hello! Please register by sending me your name")
+    bot.register_next_step_handler(message, register_name, user)
+
+
+def register_name(message, user):
+    if user.name is None:
+        user.name = message.text
+        bot.send_message(message.chat.id, "Got it! Please send me your email.")
+
+    bot.register_next_step_handler(message, register_email, user)
+
+
+def register_email(message, user):
+
+    if re.fullmatch(regex, message.text):
+        user.email = message.text
+        bot.send_message(message.chat.id, "Thanks! Please send me your password.")
+        bot.register_next_step_handler(message, register_password, user)
+    else:
+        bot.send_message(message.chat.id, "Please write correct email!")
+        # bot.register_next_step_handler(message, register_email, user)
+        register_name(message, user)
+
+
+def register_password(message, user):
+    markup = types.ReplyKeyboardMarkup(True, True)
+
+    button1 = types.KeyboardButton('Yes')
+    button2 = types.KeyboardButton('Change')
+
+    markup.row(button1)
+    markup.row(button2)
+
+    user.password_hash = message.text
+    bot.send_message(message.chat.id, f"Is this information correct?\n\n"
+                                      f"{user.name}\n"
+                                      f"{user.email}\n"
+                                      f"{user.password_hash}\n", reply_markup=markup)
+
+    bot.register_next_step_handler(message, save_user, user)
+
+
+def save_user(message, user):
+    if message.text == 'Yes':
+        try:
+            user.set_password(user.password_hash)
+            session.add(user)
+            session.commit()
+            handle_menu(message)
+        except IntegrityError:
+            bot.send_message(message.chat.id, f'Seems like you have already registered!')
+            handle_menu(message)
+    else:
+        registration(message)

@@ -8,8 +8,8 @@ def start_handler(message: types.Message):
     start.handle_start(message)
 
 
-# @bot.message_handler(commands=['menu'])
-# def menu_handler(message: types.Message):
-#     registration.handle_start(message)
+@bot.message_handler(commands=['register'])
+def menu_handler(message: types.Message):
+    registration.registration(message)
 
 
