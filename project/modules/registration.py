@@ -10,6 +10,8 @@ import re
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 
 
+
+
 def restricted_access(func):
     def wrapper(message):
         if session.query(User).filter_by(telegram_id=str(message.from_user.id)).first():
@@ -34,12 +36,16 @@ def register_name(message, user):
 
 
 def register_email(message, user):
-    if re.fullmatch(regex, message.text) and session.query(User).filter_by(email=str(message.text)).first() is None:
-        user.email = message.text
-        bot.send_message(message.chat.id, "Thanks! Please send me your password.")
-        bot.register_next_step_handler(message, register_password, user)
-    else:
-        bot.send_message(message.chat.id, "Seems like you wrote incorrect email or this email has already used")
+    try:
+        if re.fullmatch(regex, message.text) and session.query(User).filter_by(email=str(message.text)).first() is None:
+            user.email = message.text
+            bot.send_message(message.chat.id, "Thanks! Please send me your password.")
+            bot.register_next_step_handler(message, register_password, user)
+        else:
+            bot.send_message(message.chat.id, "Seems like you wrote incorrect email or this email has already used")
+            register_name(message, user)
+    except Exception as e:
+        bot.send_message(message.chat.id, "Please write a correct data")
         register_name(message, user)
 
 
@@ -69,11 +75,11 @@ def save_user(message, user):
             session.commit()
             coins_menu.init_user_coins(user.telegram_id)
             menu.handle_menu(message)
+        except AttributeError:
+            bot.send_message(message.chat.id, f'You wrote wrong data!')
+            registration(message)
         except IntegrityError:
             bot.send_message(message.chat.id, f'Seems like you have already registered!')
             menu.handle_menu(message)
-        except Exception as e:
-            bot.send_message(message.chat.id, f'You wrote wrong data!')
-            start.handle_start(message)
     else:
         registration(message)
