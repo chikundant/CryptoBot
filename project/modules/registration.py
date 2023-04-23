@@ -3,6 +3,7 @@ from telebot import types
 from project.models import User
 import project.modules.menu as menu
 import project.modules.coins_menu as coins_menu
+import project.modules.start as start
 from sqlalchemy.exc import IntegrityError
 import re
 
@@ -33,14 +34,12 @@ def register_name(message, user):
 
 
 def register_email(message, user):
-
-    if re.fullmatch(regex, message.text):
+    if re.fullmatch(regex, message.text) and session.query(User).filter_by(email=str(message.text)).first() is None:
         user.email = message.text
         bot.send_message(message.chat.id, "Thanks! Please send me your password.")
         bot.register_next_step_handler(message, register_password, user)
     else:
-        bot.send_message(message.chat.id, "Please write correct email!")
-        # bot.register_next_step_handler(message, register_email, user)
+        bot.send_message(message.chat.id, "Seems like you wrote incorrect email or this email has already used")
         register_name(message, user)
 
 
@@ -73,5 +72,8 @@ def save_user(message, user):
         except IntegrityError:
             bot.send_message(message.chat.id, f'Seems like you have already registered!')
             menu.handle_menu(message)
+        except Exception as e:
+            bot.send_message(message.chat.id, f'You wrote wrong data!')
+            start.handle_start(message)
     else:
         registration(message)

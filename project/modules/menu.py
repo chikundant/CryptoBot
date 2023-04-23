@@ -30,6 +30,8 @@ def menu_handler(message: types.Message):
         coins_menu.show_coins(message)
     elif message.text == 'Add coin':
         coins_menu.add_new_coin_handler(message)
+    else:
+        handle_menu(message)
 
 
 def create_keyboard(items, columns=3):

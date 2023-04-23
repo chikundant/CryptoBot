@@ -1,41 +1,37 @@
 import requests
+import pycoingecko
 
 url = 'https://api.coingecko.com/api/v3/simple/price'
 COINS = ['bitcoin', 'ethereum', 'binancecoin', 'tether', 'cardano', 'dogecoin', 'polkadot', 'usd-coin',
          'uniswap']
 
+cg = pycoingecko.CoinGeckoAPI()
+
 
 def get_coin_rate(coin):
     try:
-        params = {f'ids': coin, 'vs_currencies': 'usd', 'include_24hr_change': 'true'}
-        headers = {'Content-Type': 'application/json'}
-        response = requests.get(url, headers=headers, params=params)
-        data = response.json()
-
-        price = data[coin]['usd']
-        change = data[coin]['usd_24h_change']
-        return f"{coin.capitalize()}: ${price:.2f} (24h change: {change or ''}%)"
-    except requests.exceptions.HTTPError as http_error:
-        return f'HTTP error occurred: {http_error}'
-    except requests.exceptions.ConnectionError as connection_error:
-        return f'Connection error occurred: {connection_error}'
-    except requests.exceptions.Timeout as timeout_error:
-        return f'Request timed out: {timeout_error}'
-    except requests.exceptions.RequestException as request_error:
-        return f'An error occurred while making the request: {request_error}'
+        data = cg.get_coin_by_id(id=coin, tickers=True)
+        price = data['market_data']['current_price']['usd']
+        change = data['market_data']['price_change_percentage_24h']
+        low_24h = data['market_data']['low_24h']['usd']
+        high_24h = data['market_data']['high_24h']['usd']
+        return f"{coin.capitalize()}: ${price}\n" \
+               f"24h change: {change}%\n\n" \
+               f"low_24h: ${low_24h}\n" \
+               f"low_24h: ${high_24h}"
     except KeyError as key_error:
         return f'Wrong input while making the request: {key_error}'
+
+    except ValueError as value_error:
+        return f'Wrong input while making the request: {value_error}'
+
+    except Exception as e:
+        return f'Something went wrong: {e}'
 
 
 def is_correct_coin_name(coin):
     try:
-        params = {f'ids': coin.lower(), 'vs_currencies': 'usd', 'include_24hr_change': 'true'}
-        headers = {'Content-Type': 'application/json'}
-        response = requests.get(url, headers=headers, params=params)
-        data = response.json()
-        if data[coin] is not None:
-            return True
-        else:
-            return False
+        data = cg.get_coin_by_id(id=coin, tickers=True)
+        return True
     except Exception as e:
         return False
