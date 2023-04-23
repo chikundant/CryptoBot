@@ -1,7 +1,5 @@
-import requests
 import pycoingecko
 
-url = 'https://api.coingecko.com/api/v3/simple/price'
 COINS = ['bitcoin', 'ethereum', 'binancecoin', 'tether', 'cardano', 'dogecoin', 'polkadot', 'usd-coin',
          'uniswap']
 
