@@ -1,15 +1,21 @@
 from project import bot, session
 from telebot import types
 from project.models import User
-from project.modules.menu import handle_menu
+import project.modules.menu as menu
+import project.modules.coins_menu as coins_menu
 from sqlalchemy.exc import IntegrityError
 import re
 
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 
 
-def is_registered():
-    pass
+def restricted_access(func):
+    def wrapper(message):
+        if session.query(User).filter_by(telegram_id=str(message.from_user.id)).first():
+            func(message)
+        else:
+            registration(message)
+    return wrapper
 
 
 def registration(message: types.Message):
@@ -62,9 +68,10 @@ def save_user(message, user):
             user.set_password(user.password_hash)
             session.add(user)
             session.commit()
-            handle_menu(message)
+            coins_menu.init_user_coins(user.telegram_id)
+            menu.handle_menu(message)
         except IntegrityError:
             bot.send_message(message.chat.id, f'Seems like you have already registered!')
-            handle_menu(message)
+            menu.handle_menu(message)
     else:
         registration(message)

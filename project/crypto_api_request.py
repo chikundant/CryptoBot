@@ -1,9 +1,7 @@
 import requests
-from telebot import types
-import math
 
 url = 'https://api.coingecko.com/api/v3/simple/price'
-coins = ['bitcoin', 'ethereum', 'binancecoin', 'tether', 'cardano', 'dogecoin', 'xrp', 'polkadot', 'usd-coin',
+COINS = ['bitcoin', 'ethereum', 'binancecoin', 'tether', 'cardano', 'dogecoin', 'polkadot', 'usd-coin',
          'uniswap']
 
 
@@ -16,7 +14,7 @@ def get_coin_rate(coin):
 
         price = data[coin]['usd']
         change = data[coin]['usd_24h_change']
-        return f"{coin.capitalize()}: ${price:.2f} (24h change: {change:.2f}%)"
+        return f"{coin.capitalize()}: ${price:.2f} (24h change: {change or ''}%)"
     except requests.exceptions.HTTPError as http_error:
         return f'HTTP error occurred: {http_error}'
     except requests.exceptions.ConnectionError as connection_error:
@@ -29,14 +27,15 @@ def get_coin_rate(coin):
         return f'Wrong input while making the request: {key_error}'
 
 
-def create_coins_keyboard(columns=3):
-    keyboard = types.ReplyKeyboardMarkup(row_width=columns)
-    rows = int(math.ceil(len(coins) / columns))
-
-    for i in range(rows):
-        start = i * columns
-        end = (i + 1) * columns
-        row_items = coins[start:end]
-        keyboard.row(*row_items)
-
-    return keyboard
+def is_correct_coin_name(coin):
+    try:
+        params = {f'ids': coin.lower(), 'vs_currencies': 'usd', 'include_24hr_change': 'true'}
+        headers = {'Content-Type': 'application/json'}
+        response = requests.get(url, headers=headers, params=params)
+        data = response.json()
+        if data[coin] is not None:
+            return True
+        else:
+            return False
+    except Exception as e:
+        return False

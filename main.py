@@ -44,5 +44,4 @@ else:
 
 
     if __name__ == '__main__':
-
         app.run(host=config.APP_HOST, port=int(os.environ.get('PORT', 5000)))

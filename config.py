@@ -13,13 +13,17 @@ DB_USERNAME = 'chikunda'
 DB_PASSWORD = 'D52292023290'
 HOST_NAME = 'chikunda.mysql.pythonanywhere-services.com'
 DB_NAME = 'chikunda$default'
+
 PORT = '3306'
 
 KEY = 'you-will-never-guess'
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'main.db')
+
 # DATABASE_URI = 'mysql://' + f'{DB_USERNAME}:{DB_PASSWORD}@{HOST_NAME}:{PORT}/{DB_NAME}'
+
+# test db
+DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'main.db')
 
 
 class Config(object):
