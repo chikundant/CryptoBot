@@ -16,7 +16,7 @@ def get_coin_rate(coin):
         return f"{coin.capitalize()}: ${price}\n" \
                f"24h change: {change}%\n\n" \
                f"low_24h: ${low_24h}\n" \
-               f"low_24h: ${high_24h}"
+               f"high_24h: ${high_24h}"
     except KeyError as key_error:
         return f'Wrong input while making the request: {key_error}'
 
