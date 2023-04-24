@@ -9,10 +9,10 @@ APP_NAME = 'crypty.herokuapp.com'
 WEB_HOOK_URL = f'https://{APP_NAME}/{BOT_API}'
 
 # Database configuration
-DB_USERNAME = 'chikunda'
-DB_PASSWORD = 'D52292023290'
-HOST_NAME = 'chikunda.mysql.pythonanywhere-services.com'
-DB_NAME = 'chikunda$default'
+DB_USERNAME = 'ohfv5sr0sxyz96lc'
+DB_PASSWORD = 'mueyyxlkdsheg2is'
+HOST_NAME = 'ulsq0qqx999wqz84.chr7pe7iynqr.eu-west-1.rds.amazonaws.com'
+DB_NAME = 'g3objhgcidpdr8i9'
 
 PORT = '3306'
 
@@ -20,10 +20,10 @@ KEY = 'you-will-never-guess'
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
-# DATABASE_URI = 'mysql://' + f'{DB_USERNAME}:{DB_PASSWORD}@{HOST_NAME}:{PORT}/{DB_NAME}'
+DATABASE_URI = 'mysql://' + f'{DB_USERNAME}:{DB_PASSWORD}@{HOST_NAME}:{PORT}/{DB_NAME}'
 
 # test db
-DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'main.db')
+# DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'main.db')
 
 # app config
 DEBUG = True  # set True if you want to run it on your pc
