@@ -13,7 +13,7 @@ engine = create_engine(config.DATABASE_URI)
 Session = sessionmaker(bind=engine)
 session = Session()
 
-app.config.from_object(config.Config)
+# app.config.from_object(config.Config)
 
 app.debug = config.DEBUG
 

@@ -10,7 +10,7 @@ from project.crypto_api_request import cg
 
 
 # INTERVAL = 3600
-INTERVAL = 1
+INTERVAL = 60
 
 
 def send_message():
