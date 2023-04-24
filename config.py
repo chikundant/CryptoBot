@@ -27,7 +27,7 @@ DATABASE_URI = 'mysql://' + f'{DB_USERNAME}:{DB_PASSWORD}@{HOST_NAME}:{DB_PORT}/
 
 # app config
 DEBUG = False  # set True if you want to run it on your pc
-NOTIFICATIONS = True  # Requires pro account on the hosting
+NOTIFICATIONS = False  # Requires pro account on the hosting
 
 
 # class Config(object):

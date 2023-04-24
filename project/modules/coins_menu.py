@@ -29,7 +29,8 @@ def get_user_coins(user_id):
 
 def add_new_coin_handler(message):
     bot.send_message(message.chat.id, 'Please, text me a coin you want to add\n'
-                                      'Note that you have to write a coin ID')
+                                      'Note that you have to write a coin ID such as below:\n\n'
+                                      '[coingecko, 0xwallet-token, bitflowers, bitforex, bite]')
     bot.register_next_step_handler(message, add_new_coin)
 
 
