@@ -25,6 +25,10 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 # test db
 DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'main.db')
 
+# app config
+DEBUG = True  # set True if you want to run it on your pc
+NOTIFICATIONS = False  # Requires pro account on the hosting
+
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or KEY

@@ -29,7 +29,7 @@ def test_session():
     return test_session
 
 
-@pytest.fixture
+@pytest.fixture(scope='module')
 def cg():
     return pycoingecko.CoinGeckoAPI()
 

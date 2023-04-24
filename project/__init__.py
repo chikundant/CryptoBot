@@ -15,6 +15,6 @@ session = Session()
 
 app.config.from_object(config.Config)
 
-app.debug = True
+app.debug = config.DEBUG
 
 from project import routes

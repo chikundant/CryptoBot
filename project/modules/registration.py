@@ -10,8 +10,6 @@ import re
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 
 
-
-
 def restricted_access(func):
     def wrapper(message):
         if session.query(User).filter_by(telegram_id=str(message.from_user.id)).first():

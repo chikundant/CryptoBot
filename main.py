@@ -11,6 +11,7 @@ if app.debug is True:
     Base.metadata.create_all(engine)
     bot.polling()
 else:
+    Base.metadata.create_all(engine)
 
     @app.route('/' + config.BOT_API, methods=['POST'])
     def get_message():
@@ -27,11 +28,11 @@ else:
     @app.route('/')
     def webhook():
         # bot.remove_webhook()
-        Base.metadata.create_all(engine)
+
         bot.delete_webhook()
         bot.set_webhook(url=config.WEB_HOOK_URL)
         return '!', 200
 
 
     if __name__ == '__main__':
-        app.run(host=config.APP_HOST, port=int(os.environ.get('PORT', 5000)), debug=True)
+        app.run(host=config.APP_HOST, port=int(os.environ.get('PORT', 5000)))
