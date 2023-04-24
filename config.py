@@ -5,7 +5,7 @@ BOT_API = '6239549672:AAGvhZ6rvB7GzqJ8xSJar24kKrMEdOqB1YU'
 # Webhook configuration
 APP_HOST = '0.0.0.0'  # Default value
 APP_PORT = '8444'  # Default value
-APP_NAME = 'chikunda.pythonanywhere.com'
+APP_NAME = 'crypty.herokuapp.com'
 WEB_HOOK_URL = f'https://{APP_NAME}/{BOT_API}'
 
 # Database configuration
