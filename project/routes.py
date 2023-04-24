@@ -7,9 +7,9 @@ from project.modules import start
 import project.modules.registration as registration
 from project.modules.broadcast import send_message
 
-# if config.NOTIFICATIONS:
-#     broadcast_thread = threading.Thread(target=send_message)
-#     broadcast_thread.start()
+if config.NOTIFICATIONS:
+    broadcast_thread = threading.Thread(target=send_message)
+    broadcast_thread.start()
 
 
 @bot.message_handler(commands=['start'])
