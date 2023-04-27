@@ -1,18 +1,18 @@
 import os
 
-BOT_API = '6239549672:AAGvhZ6rvB7GzqJ8xSJar24kKrMEdOqB1YU'
+BOT_API = 'API from Bot Father'
 
 # Webhook configuration
 APP_HOST = '0.0.0.0'  # Default value
 APP_PORT = '8444'  # Default value
-APP_NAME = 'crypty.herokuapp.com'
+APP_NAME = 'Your-bot-here.herokuapp.com'
 WEB_HOOK_URL = f'https://{APP_NAME}/{BOT_API}'
 
 # Database configuration
-DB_USERNAME = 'ohfv5sr0sxyz96lc'
-DB_PASSWORD = 'mueyyxlkdsheg2is'
-HOST_NAME = 'ulsq0qqx999wqz84.chr7pe7iynqr.eu-west-1.rds.amazonaws.com'
-DB_NAME = 'g3objhgcidpdr8i9'
+DB_USERNAME = 'Your value here'
+DB_PASSWORD = 'Your value here'
+HOST_NAME = 'Your value here'
+DB_NAME = 'Your value here'
 
 DB_PORT = '3306'
 
