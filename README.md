@@ -24,12 +24,7 @@ Notice that you need a pro account to use broadcast feature, because heroku does
 ### Configuration
 
 - Open ``` settings.py ```
-```
-DB_USERNAME = 'Your value here'
-DB_PASSWORD = 'Your value here'
-HOST_NAME = 'Your value here'
-DB_NAME = 'Your value here'
-```
+
 - Write in ```APP_NAME``` your app name
 ```
 APP_NAME = 'Your-bot-here.herokuapp.com'
